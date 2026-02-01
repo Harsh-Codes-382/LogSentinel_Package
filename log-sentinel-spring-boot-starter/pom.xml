@@ -28,6 +28,12 @@
 			<artifactId>log-sentinel-core</artifactId>
 		</dependency>
 
+	<!-- Validations for Properties -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- REQUIRED for Spring Boot starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

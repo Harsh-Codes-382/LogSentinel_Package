@@ -1,34 +1,75 @@
 package io.logsentinel.starter.config;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
 
 @ConfigurationProperties(prefix = "log.sentinel")
+@Validated
 public class LogSentinelProperties {
     // Master switch
     private boolean enabled = true;
+    // Async Configurable
+    private boolean async = true;
 
     // Log ingestion endpoint
+    @NotBlank
     private String endpoint;
 
     // Auth / API key
     private String apiKey;
 
-
     // Service identity
-    private String serviceName = "service1";
-    private String environment = "default";
+    @NotBlank(message = "Please specify the Service Name")
+    private String serviceName;
+    @NotBlank(message = "Please specify the Environment")
+    private String environment;
+
+    @Valid
+    private Executor executor = new Executor();
+
+    public static class Executor {
+
+        @Min(1)
+        @Max(32)
+        private int threads = 2;
+
+        public int getThreads() {
+            return threads;
+        }
+
+        public void setThreads(int threads) {
+            this.threads = threads;
+        }
+    }
 
 
     // Timeouts
     private int connectTimeoutMs = 2000;
     private int readTimeoutMs = 5000;
 
+    public Executor getExecutor() {
+        return this.executor;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
 
+    public boolean isAsync() {
+        return async;
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 
     public String getEndpoint() {

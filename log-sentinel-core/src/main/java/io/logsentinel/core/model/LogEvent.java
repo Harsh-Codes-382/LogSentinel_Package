@@ -4,19 +4,22 @@ import java.time.Instant;
 import java.util.Map;
 
 public class LogEvent {
+    // Core envelope
     private LogLevel level;
     private String message;
     private Instant timestamp;
-
-    // Optional structured data
-    private Map<String, Object> data;
-
-    // Error info
-    private String errorType;
-    private String errorMessage;
-    private String stackTrace;
-
     private LogContext context;
+
+    // Client-defined attributes
+    private Map<String, Object> attributes;
+
+    // Classification
+    private String eventType;      // PAYMENT_FAILED, USER_LOGIN
+    private String schemaVersion;  // v1, v2
+
+    public LogEvent(){
+        this.timestamp = Instant.now();
+    }
 
     public LogLevel getLevel() {
         return level;
@@ -42,36 +45,28 @@ public class LogEvent {
         this.timestamp = timestamp;
     }
 
-    public Map<String, Object> getData() {
-        return data;
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
-    public void setData(Map<String, Object> data) {
-        this.data = data;
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
     }
 
-    public String getErrorType() {
-        return errorType;
+    public String getEventType() {
+        return eventType;
     }
 
-    public void setErrorType(String errorType) {
-        this.errorType = errorType;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getSchemaVersion() {
+        return schemaVersion;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getStackTrace() {
-        return stackTrace;
-    }
-
-    public void setStackTrace(String stackTrace) {
-        this.stackTrace = stackTrace;
+    public void setSchemaVersion(String schemaVersion) {
+        this.schemaVersion = schemaVersion;
     }
 
     public LogContext getContext() {
